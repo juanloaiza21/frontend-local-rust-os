@@ -48,7 +48,7 @@ pub async fn get_by_index(index: String) -> Result<Trip, Box<dyn Error>> {
 pub struct GetByPriceRangeInput {
     pub min: String,
     pub max: String,
-    pub pages: String,
+    pub page: String, // Keep as 'pages' (plural) for price range endpoint
     pub per_page: String,
 }
 
@@ -85,21 +85,22 @@ pub async fn get_by_price_range(
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GetByDestinationInput {
     pub destination: String,
-    pub pages: String,
-    pub per_page: String,
-}
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct GetByDestinationQuery {
-    pub pages: String,
+    pub page: String, // Use 'page' (singular) for destination endpoint
     pub per_page: String,
 }
 
-async fn get_by_destination(
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct GetByDestinationQuery {
+    pub page: String, // Use 'page' (singular) for destination endpoint
+    pub per_page: String,
+}
+
+pub async fn get_by_destination(
     data: &GetByDestinationInput,
 ) -> Result<GetByPriceRangeOutput, Box<dyn Error>> {
     let client = Client::new();
     let query: GetByDestinationQuery = GetByDestinationQuery {
-        pages: data.pages.clone(),
+        page: data.page.clone(),
         per_page: data.per_page.clone(),
     };
     let url: String = URL.to_owned() + "/trip/destination/" + &data.destination;
