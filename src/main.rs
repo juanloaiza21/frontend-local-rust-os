@@ -39,8 +39,11 @@ fn App() -> Element {
             match api::apicalls::get_by_index(index_search.peek().to_string()).await {
                 Ok(trip) => {
                     trip_data.set(Some(format!(
-                        "Viaje encontrado: Origen {} → Destino {}, Distancia: {}",
-                        trip.pu_location_id, trip.do_location_id, trip.trip_distance
+                        "Viaje encontrado: Origen {} → Destino {}, Distancia: {}, Precio: ${} USD",
+                        trip.pu_location_id,
+                        trip.do_location_id,
+                        trip.trip_distance,
+                        trip.fare_amount,
                     )));
                     loading.set(false);
                 }
@@ -149,13 +152,27 @@ fn App() -> Element {
             div {
                 style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
 
-                h2 { "Prueba de API - Get by Index" }
+                h2 { " Get by Index" }
+
+                div {
+                    style: "display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;",
+
+                    div {
+                        label { "Index a buscar:" }
+                        input {
+                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            value: index_search,
+                            oninput: move |evt| index_search.set(evt.value().clone()),
+                        }
+                    }
+
+                }
 
                 button {
                     style: "padding: 10px 20px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
                     disabled: loading(),
                     onclick: fetch_trip,
-                    {if loading() { "Cargando..." } else { "Obtener viaje #1" }}
+                    {if loading() { "Cargando..." } else { "Obtener viaje" }}
                 }
 
                 {trip_data().map(|data| {
@@ -171,7 +188,7 @@ fn App() -> Element {
             div {
                 style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
 
-                h2 { "Prueba de API - Get by Price Range" }
+                h2 { "Get by Price Range" }
 
                 div {
                     style: "display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;",
