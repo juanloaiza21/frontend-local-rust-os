@@ -142,34 +142,39 @@ fn App() -> Element {
 
     rsx! {
         div {
-            style: "padding: 20px; font-family: sans-serif; background-color: #f5f5f5; color: #333;",
+            style: "padding: 20px; font-family: sans-serif; background-color: #0378A6; color: white;",
 
             h1 {
-                style: "color: #4285F4; text-align: center;",
+                style: "color: #D9A0AF; text-align: center; margin-bottom: 30px; font-size: 2.2rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2);",
                 "Visor de Datos de Viajes"
             }
 
             div {
-                style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
+                style: "margin-top: 30px; padding: 20px; background-color: #739FD9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);",
 
-                h2 { " Get by Index" }
+                h2 {
+                    style: "color: #012606; margin-bottom: 20px;",
+                    "Get by Index"
+                }
 
                 div {
                     style: "display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;",
 
                     div {
-                        label { "Index a buscar:" }
+                        label {
+                            style: "color: white; display: block; margin-bottom: 5px;",
+                            "Index a buscar:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: index_search,
                             oninput: move |evt| index_search.set(evt.value().clone()),
                         }
                     }
-
                 }
 
                 button {
-                    style: "padding: 10px 20px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
+                    style: "padding: 10px 20px; background-color: #BF5F56; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
                     disabled: loading(),
                     onclick: fetch_trip,
                     {if loading() { "Cargando..." } else { "Obtener viaje" }}
@@ -178,7 +183,7 @@ fn App() -> Element {
                 {trip_data().map(|data| {
                     rsx! {
                         div {
-                            style: "margin-top: 15px; padding: 10px; border-radius: 4px; background-color: #f0f0f0;",
+                            style: "margin-top: 15px; padding: 10px; border-radius: 4px; background-color: #D9A0AF; color: #012606; border-left: 4px solid #BF5F56;",
                             "{data}"
                         }
                     }
@@ -186,44 +191,59 @@ fn App() -> Element {
             }
 
             div {
-                style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
+                style: "margin-top: 30px; padding: 20px; background-color: #D9A0AF; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);",
 
-                h2 { "Get by Price Range" }
+                h2 {
+                    style: "color: #012606; margin-bottom: 20px;",
+                    "Get by Price Range"
+                }
 
                 div {
                     style: "display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;",
 
                     div {
-                        label { "Precio mínimo:" }
+                        label {
+                            style: "color: #012606; display: block; margin-bottom: 5px;",
+                            "Precio mínimo:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: min_price,
                             oninput: move |evt| min_price.set(evt.value().clone()),
                         }
                     }
 
                     div {
-                        label { "Precio máximo:" }
+                        label {
+                            style: "color: #012606; display: block; margin-bottom: 5px;",
+                            "Precio máximo:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: max_price,
                             oninput: move |evt| max_price.set(evt.value().clone()),
                         }
                     }
 
                     div {
-                        label { "Página:" }
+                        label {
+                            style: "color: #012606; display: block; margin-bottom: 5px;",
+                            "Página:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: price_page,
                             oninput: move |evt| price_page.set(evt.value().clone()),
                         }
                     }
 
                     div {
-                        label { "Resultados por página:" }
+                        label {
+                            style: "color: #012606; display: block; margin-bottom: 5px;",
+                            "Resultados por página:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: price_per_page,
                             oninput: move |evt| price_per_page.set(evt.value().clone()),
                         }
@@ -234,21 +254,21 @@ fn App() -> Element {
                     style: "display: flex; gap: 10px; margin-bottom: 15px;",
 
                     button {
-                        style: "padding: 10px 20px; background-color: #FF9800; color: white; border: none; border-radius: 4px; cursor: pointer; flex: 1;",
+                        style: "padding: 10px 20px; background-color: #0378A6; color: white; border: none; border-radius: 4px; cursor: pointer; flex: 1; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
                         disabled: price_loading(),
                         onclick: move |_| fetch_by_price(()),
                         {if price_loading() { "Cargando..." } else { "Buscar por rango de precio" }}
                     }
 
                     button {
-                        style: "padding: 10px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
+                        style: "padding: 10px; background-color: #012606; color: white; border: none; border-radius: 4px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
                         disabled: price_loading() || price_page() == "1",
                         onclick: prev_price_page,
                         "<<"
                     }
 
                     button {
-                        style: "padding: 10px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
+                        style: "padding: 10px; background-color: #012606; color: white; border: none; border-radius: 4px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
                         disabled: price_loading() || price_results().map_or(true, |r| r.page >= r.pages),
                         onclick: next_price_page,
                         ">>"
@@ -261,21 +281,21 @@ fn App() -> Element {
                             style: "margin-top: 15px;",
 
                             div {
-                                style: "padding: 10px; border-radius: 4px; background-color: #f0f0f0; margin-bottom: 10px;",
+                                style: "padding: 10px; border-radius: 4px; background-color: #739FD9; color: white; margin-bottom: 10px;",
                                 p { "Total: {result.total} viajes | Página {result.page} de {result.pages} | Tiempo: {result.time_ms}ms" }
                             }
 
                             table {
-                                style: "width: 100%; border-collapse: collapse;",
+                                style: "width: 100%; border-collapse: collapse; background-color: white; border-radius: 4px; overflow: hidden;",
 
                                 thead {
                                     tr {
-                                        style: "background-color: #f2f2f2;",
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Índice" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Origen" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Destino" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Distancia" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Importe" }
+                                        style: "background-color: #012606; color: white;",
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Índice" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Origen" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Destino" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Distancia" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Importe" }
                                     }
                                 }
 
@@ -284,11 +304,11 @@ fn App() -> Element {
                                         rsx! {
                                             tr {
                                                 key: "{trip.index}",
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.index}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.pu_location_id}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.do_location_id}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.trip_distance}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "${trip.total_amount}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.index}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.pu_location_id}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.do_location_id}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.trip_distance}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "${trip.total_amount}" }
                                             }
                                         }
                                     })}
@@ -300,35 +320,47 @@ fn App() -> Element {
             }
 
             div {
-                style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
+                style: "margin-top: 30px; padding: 20px; background-color: #739FD9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-bottom: 30px;",
 
-                h2 { " Get by Destination" }
+                h2 {
+                    style: "color: #012606; margin-bottom: 20px;",
+                    "Get by Destination"
+                }
 
                 div {
                     style: "display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;",
 
                     div {
-                        label { "ID de Destino:" }
+                        label {
+                            style: "color: white; display: block; margin-bottom: 5px;",
+                            "ID de Destino:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: destination,
                             oninput: move |evt| destination.set(evt.value().clone()),
                         }
                     }
 
                     div {
-                        label { "Página:" }
+                        label {
+                            style: "color: white; display: block; margin-bottom: 5px;",
+                            "Página:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: dest_page,
                             oninput: move |evt| dest_page.set(evt.value().clone()),
                         }
                     }
 
                     div {
-                        label { "Resultados por página:" }
+                        label {
+                            style: "color: white; display: block; margin-bottom: 5px;",
+                            "Resultados por página:"
+                        }
                         input {
-                            style: "width: 90%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;",
+                            style: "width: 90%; padding: 8px; border: 1px solid #012606; border-radius: 4px; background-color: rgba(255,255,255,0.9);",
                             value: dest_per_page,
                             oninput: move |evt| dest_per_page.set(evt.value().clone()),
                         }
@@ -339,21 +371,21 @@ fn App() -> Element {
                     style: "display: flex; gap: 10px; margin-bottom: 15px;",
 
                     button {
-                        style: "padding: 10px 20px; background-color: #673AB7; color: white; border: none; border-radius: 4px; cursor: pointer; flex: 1;",
+                        style: "padding: 10px 20px; background-color: #BF5F56; color: white; border: none; border-radius: 4px; cursor: pointer; flex: 1; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
                         disabled: dest_loading(),
                         onclick: move |_| fetch_by_destination(()),
                         {if dest_loading() { "Cargando..." } else { "Buscar por destino" }}
                     }
 
                     button {
-                        style: "padding: 10px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
+                        style: "padding: 10px; background-color: #012606; color: white; border: none; border-radius: 4px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
                         disabled: dest_loading() || dest_page() == "1",
                         onclick: prev_dest_page,
                         "<<"
                     }
 
                     button {
-                        style: "padding: 10px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
+                        style: "padding: 10px; background-color: #012606; color: white; border: none; border-radius: 4px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
                         disabled: dest_loading() || dest_results().map_or(true, |r| r.page >= r.pages),
                         onclick: next_dest_page,
                         ">>"
@@ -366,21 +398,21 @@ fn App() -> Element {
                             style: "margin-top: 15px;",
 
                             div {
-                                style: "padding: 10px; border-radius: 4px; background-color: #f0f0f0; margin-bottom: 10px;",
+                                style: "padding: 10px; border-radius: 4px; background-color: #D9A0AF; color: #012606; margin-bottom: 10px;",
                                 p { "Total: {result.total} viajes | Página {result.page} de {result.pages} | Tiempo: {result.time_ms}ms" }
                             }
 
                             table {
-                                style: "width: 100%; border-collapse: collapse;",
+                                style: "width: 100%; border-collapse: collapse; background-color: white; border-radius: 4px; overflow: hidden;",
 
                                 thead {
                                     tr {
-                                        style: "background-color: #f2f2f2;",
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Índice" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Origen" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Destino" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Distancia" }
-                                        th { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "Importe" }
+                                        style: "background-color: #012606; color: white;",
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Índice" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Origen" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Destino" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Distancia" }
+                                        th { style: "padding: 10px; text-align: left; border-bottom: 1px solid #739FD9;", "Importe" }
                                     }
                                 }
 
@@ -389,11 +421,11 @@ fn App() -> Element {
                                         rsx! {
                                             tr {
                                                 key: "{trip.index}",
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.index}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.pu_location_id}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.do_location_id}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "{trip.trip_distance}" }
-                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #ddd;", "${trip.total_amount}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.index}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.pu_location_id}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.do_location_id}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "{trip.trip_distance}" }
+                                                td { style: "padding: 8px; text-align: left; border-bottom: 1px solid #D9A0AF; color: #012606;", "${trip.total_amount}" }
                                             }
                                         }
                                     })}
