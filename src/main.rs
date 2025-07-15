@@ -39,7 +39,7 @@ fn App() -> Element {
             match api::apicalls::get_by_index(index_search.peek().to_string()).await {
                 Ok(trip) => {
                     trip_data.set(Some(format!(
-                        "Viaje encontrado: Origen {} → Destino {}, Distancia: {}, Precio: ${} USD",
+                        "Viaje encontrado: Origen {} → Destino {}, Distancia: {}, Importe: ${} USD",
                         trip.pu_location_id,
                         trip.do_location_id,
                         trip.trip_distance,
@@ -302,7 +302,7 @@ fn App() -> Element {
             div {
                 style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
 
-                h2 { "Prueba de API - Get by Destination" }
+                h2 { " Get by Destination" }
 
                 div {
                     style: "display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;",
