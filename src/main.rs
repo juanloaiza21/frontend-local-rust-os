@@ -13,38 +13,31 @@ fn main() {
 
 #[component]
 fn App() -> Element {
-    // Declarar count como mutable
     let mut count = use_signal(|| 0);
 
-    // Estado para almacenar resultado de la API de get_by_index
     let mut trip_data = use_signal(|| None::<String>);
     let mut loading = use_signal(|| false);
 
-    // Estado para almacenar input y resultados de get_by_price_range
     let mut min_price = use_signal(|| "10.0".to_string());
     let mut max_price = use_signal(|| "20.0".to_string());
     let mut price_page = use_signal(|| "1".to_string());
     let mut price_per_page = use_signal(|| "5".to_string());
     let mut price_results = use_signal(|| None::<api::apicalls::GetByPriceRangeOutput>);
     let mut price_loading = use_signal(|| false);
+    let mut index_search = use_signal(|| "1".to_string());
 
-    // Estado para almacenar input y resultados de get_by_destination
     let mut destination = use_signal(|| "236".to_string());
     let mut dest_page = use_signal(|| "1".to_string());
     let mut dest_per_page = use_signal(|| "5".to_string());
     let mut dest_results = use_signal(|| None::<api::apicalls::GetByPriceRangeOutput>);
     let mut dest_loading = use_signal(|| false);
 
-    // Función para realizar la llamada a la API get_by_index
     let fetch_trip = move |_| {
         loading.set(true);
 
-        // Ejecutar código asíncrono con spawn
         spawn(async move {
-            // Convertir el índice a String y realizar la llamada
-            match api::apicalls::get_by_index("1".to_string()).await {
+            match api::apicalls::get_by_index(index_search.peek().to_string()).await {
                 Ok(trip) => {
-                    // Convertir el resultado a una cadena para mostrar
                     trip_data.set(Some(format!(
                         "Viaje encontrado: Origen {} → Destino {}, Distancia: {}",
                         trip.pu_location_id, trip.do_location_id, trip.trip_distance
@@ -59,14 +52,13 @@ fn App() -> Element {
         });
     };
 
-    // Función para realizar la llamada a la API get_by_price_range
     let mut fetch_by_price = move |_| {
         price_loading.set(true);
 
         let input = api::apicalls::GetByPriceRangeInput {
             min: min_price.peek().to_string(),
             max: max_price.peek().to_string(),
-            page: price_page.peek().to_string(), // Changed from 'pages' to 'page' (singular)
+            page: price_page.peek().to_string(),
             per_page: price_per_page.peek().to_string(),
         };
 
@@ -77,17 +69,14 @@ fn App() -> Element {
                     price_loading.set(false);
                 }
                 Err(e) => {
-                    // Si hay error, limpiar resultados previos
                     price_results.set(None);
                     price_loading.set(false);
-                    // Mostrar error usando el trip_data para simplificar
                     trip_data.set(Some(format!("Error en búsqueda por precio: {}", e)));
                 }
             }
         });
     };
 
-    // Función para realizar la llamada a la API get_by_destination
     let mut fetch_by_destination = move |_| {
         dest_loading.set(true);
 
@@ -104,17 +93,14 @@ fn App() -> Element {
                     dest_loading.set(false);
                 }
                 Err(e) => {
-                    // Si hay error, limpiar resultados previos
                     dest_results.set(None);
                     dest_loading.set(false);
-                    // Mostrar error usando el trip_data para simplificar
                     trip_data.set(Some(format!("Error en búsqueda por destino: {}", e)));
                 }
             }
         });
     };
 
-    // Funciones para la navegación por páginas
     let prev_price_page = move |_| {
         let current = price_page().parse::<i32>().unwrap_or(1);
         if current > 1 {
@@ -160,28 +146,6 @@ fn App() -> Element {
                 "Visor de Datos de Viajes"
             }
 
-            p {
-                style: "text-align: center; margin: 20px 0;",
-                "Contador: {count}"
-            }
-
-            div {
-                style: "display: flex; justify-content: center; gap: 10px; margin-top: 30px;",
-
-                button {
-                    style: "padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;",
-                    onclick: move |_| count.set(count() + 1),
-                    "Incrementar"
-                }
-
-                button {
-                    style: "padding: 10px 20px; background-color: #F44336; color: white; border: none; border-radius: 4px; cursor: pointer;",
-                    onclick: move |_| count.set(0),
-                    "Resetear"
-                }
-            }
-
-            // Sección para probar la API get_by_index
             div {
                 style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
 
@@ -194,7 +158,6 @@ fn App() -> Element {
                     {if loading() { "Cargando..." } else { "Obtener viaje #1" }}
                 }
 
-                // Mostrar resultado si existe
                 {trip_data().map(|data| {
                     rsx! {
                         div {
@@ -205,7 +168,6 @@ fn App() -> Element {
                 })}
             }
 
-            // Sección para probar la API get_by_price_range
             div {
                 style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
 
@@ -261,7 +223,6 @@ fn App() -> Element {
                         {if price_loading() { "Cargando..." } else { "Buscar por rango de precio" }}
                     }
 
-                    // Botones de navegación por páginas
                     button {
                         style: "padding: 10px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
                         disabled: price_loading() || price_page() == "1",
@@ -277,7 +238,6 @@ fn App() -> Element {
                     }
                 }
 
-                // Mostrar resultados de price_range
                 {price_results().map(|result| {
                     rsx! {
                         div {
@@ -322,7 +282,6 @@ fn App() -> Element {
                 })}
             }
 
-            // Sección para probar la API get_by_destination
             div {
                 style: "margin-top: 30px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
 
@@ -369,7 +328,6 @@ fn App() -> Element {
                         {if dest_loading() { "Cargando..." } else { "Buscar por destino" }}
                     }
 
-                    // Botones de navegación por páginas
                     button {
                         style: "padding: 10px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;",
                         disabled: dest_loading() || dest_page() == "1",
@@ -385,7 +343,6 @@ fn App() -> Element {
                     }
                 }
 
-                // Mostrar resultados de destination search
                 {dest_results().map(|result| {
                     rsx! {
                         div {
